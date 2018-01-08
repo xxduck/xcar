@@ -12,7 +12,7 @@
 
 ## 爬虫与数据库表设计
 
-![数据表设计](xcar/png/子论坛(奔腾x40).png)
+![数据表设计](https://github.com/xiaofang-git/xcar/blob/master/png/%E5%AD%90%E8%AE%BA%E5%9D%9B(%E5%A5%94%E8%85%BEx40).png)
 
 ## 爬虫项目结构
 
