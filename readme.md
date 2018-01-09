@@ -9,6 +9,10 @@
 ## 推荐环境
 
 - anaconda 1.6.5
+- selenium
+- chrome
+- chromedriver
+- pymysql
 
 ## 爬虫与数据库表设计
 
