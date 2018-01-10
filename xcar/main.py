@@ -1,8 +1,11 @@
 from sql import tables
-from setting import MYSQL_CONNECT
+from setting import MYSQL_CONNECT, MAX_POOL
 from spider import item_list
+from spider import reply_page
 import logging
 import time
+from multiprocessing import Pool
+from multiprocessing.dummy import Pool as ThreadPool
 
 
 def item_main():
@@ -33,6 +36,42 @@ def item_main():
     print(err_list)
 
 
+def reply_to_mysql(tid):
+    m = tables.Mysql(MYSQL_CONNECT)
+    r = reply_page.Reply()
+    infos = r.get_info(tid)
+    err = []
+    # 返回是一个迭代器
+    sql = """insert into reply(item_id, reply_er, reply_time, reply)
+        values({}, "{}", {}, "{}");"""
+    try:
+        # info是一个迭代器
+        for info in infos:
+            item_id, reply_er, reply_time, reply = info
+            # 写入mysql
+            m.insert(sql.format(item_id, reply_er, reply_time, reply))
+            print(sql.format(item_id, reply_er, reply_time, reply))
+    except:
+        err.append(tid)
+        logging.error("{}抓取失败".format(tid))
+    print(err)
+
+
+def reply_main():
+    logging.info("开始抓取回复页")
+
+    pool = ThreadPool(MAX_POOL)
+    tids = tables.Mysql(MYSQL_CONNECT)
+  
+    # 只读取item_id
+    sql = """select item_id from item"""
+    tids = (tid['item_id'] for tid in tids.read(sql))
+    pool.map(reply_to_mysql, tids)
+    pool.close()
+    pool.join()
+            
+
+
 
 if  __name__ == "__main__":
-    item_main()
+    reply_main()

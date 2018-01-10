@@ -11,6 +11,7 @@ class Mysql(object):
         self.con = pymysql.connect(**setting)
 
     def insert(self, sql):
+        # 插入数据
         try:
             cur = self.con.cursor()
             cur.execute(sql)
@@ -19,5 +20,12 @@ class Mysql(object):
         except:
             logging.error("数据库插入出错")
 
-
-
+    def read(self, sql):
+        # 读取数据
+        try:
+            cur = self.con.cursor()
+            cur.execute(sql)
+            result = cur.fetchall()
+            return result
+        except:
+            logging.error("读取数据失败")
