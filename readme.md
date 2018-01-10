@@ -20,14 +20,20 @@
 
 ## 爬虫项目结构
 
-- 爬虫 `spider`
-    - 论坛列表页(贴子摘要页) `abstract.py`
-    - 回帖页(贴子详情页) `datail.py`
-
-- 自然语言分析 `analysis`
-
-- 数据库交互 `sql`
-    - `sql.py`
-
-- 配置文件
-    - `setting.py`
+1. 修改setting文件数据库连接的配置信息
+2. 创建数据库
+    - `create database xcar`
+3. 创建数据表
+    1. `use xcar`
+    2. """ sql
+    CREATE TABLE `item` (
+  `item_id` int(11) NOT NULL,
+  `title` char(100) DEFAULT NULL,
+  `poster` char(30) DEFAULT NULL,
+  `post_time` float DEFAULT NULL,
+  `replies` int(11) DEFAULT NULL,
+  `view_count` int(11) DEFAULT NULL,
+  PRIMARY KEY (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+"""
+    3.

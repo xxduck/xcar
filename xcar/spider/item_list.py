@@ -1,5 +1,5 @@
 """抓取帖子列表页信息"""
-from base import Parent
+from spider.base import Parent
 import logging
 import sys
 
@@ -14,14 +14,15 @@ class Item(Parent):
         # 计算总页数
         try:
             all_page_num = self.browser.find_elements_by_class_name("page")[-1].text  # 获取总页数
-            end = int(all_page_num.strip())
+            end = int(all_page_num.strip()) + 1    # range左闭右开
 
         except:
             logging.error("总页数获取失败，程序退出")
             sys.exit()
 
         for i in range(1, end):
-            self.browser.get(self.url.format(i))
+            url = self.url.format(i)
+            self.browser.get(url)
             # 隐式等待加载完毕
             self.my_wait("list_dl")
             dls = self.browser.find_elements_by_class_name("list_dl")
@@ -34,7 +35,8 @@ class Item(Parent):
                     href = dl.find_elements_by_tag_name("a")[0]
                     # 把href字段合并到list
                     dl_list.append(href.get_attribute('href')) 
-                    print(dl_list)
+                    dl_list.append(url)
+                    yield dl_list
  
 
 if __name__ == "__main__":
