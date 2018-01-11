@@ -28,10 +28,17 @@
 4. 添加chromedriver.exe所在目录到系统环境变量（chromedriver.exe在项目根文件下的script文件夹下)
 5. 修改setting文件数据库连接的配置信息,以及需要开启的线程数量
 6. 创建数据库以及表（以下命令在数据库客户端中运行）
-    1. `create database xcar` 创建数据库
-    2. `use xcar` 切换数据库到xcar
-    3. 创建item表，存放列表页信息
-    4. 创建reply表，存放所有回帖信息
+    1. `create database xcar` 创建数据库
+    2. `use xcar` 切换数据库到xcar
+    3. 创建item表，存放列表页信息
+    ```sql
+    CREATE TABLE `item` (`item_id` int(11) NOT NULL, `title` char(100) DEFAULT NULL,  `poster` char(30) DEFAULT NULL,  `post_time` float DEFAULT NULL,  `replies` int(11) DEFAULT NULL,  `view_count` int(11) DEFAULT NULL,  PRIMARY KEY (`item_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    ```
+    4. 创建reply表，存放所有回帖信息
+    ```sql
+    CREATE TABLE `reply` (  `id` int(11) NOT NULL AUTO_INCREMENT,  `item_id` int(11) DEFAULT NULL,  `reply_er` char(30) DEFAULT NULL,  `reply_time` float DEFAULT NULL,  `reply` text,  PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+    ```
+    
 7. `python main.py` 运行爬虫
 
 ## 进度
