@@ -6,6 +6,7 @@ import logging
 import time
 from multiprocessing import Pool
 from multiprocessing.dummy import Pool as ThreadPool
+from analysis import date_analysis
 
 
 def item_main():
@@ -78,6 +79,26 @@ def reply_main():
     pool.join()
 
 
+def analysis_main():
+    tids = tables.Mysql(MYSQL_CONNECT)
+    analysis = date_analysis.MyJieba()
+    # analysis.add_stop_word("")  添加停止词
+    sql = """select reply from reply"""
+    replies = tids.read(sql)
+    text = ",".join((reply['reply'] for reply in replies))
+    # 添加文本
+    analysis.add_text(text)
+    datas = list(analysis.describe())  # 是个迭代器
+    # 存入mysql数据库
+    sql = """insert into data(word, times, frequency, yes)
+        values("{}",{}, {}, "{}")"""
+    for data in datas:
+        word, times, frequency, yes = data
+        tids.insert(sql.format(word,times, frequency, yes))
+        print(data) 
+
+    
 if __name__ == "__main__":
-    item_main()
-    reply_main()
+    item_main()  # 抓取列表页
+    reply_main()  # 抓取回帖页
+    analysis_main() # 分析统计词频

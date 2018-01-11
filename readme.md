@@ -38,8 +38,12 @@
     ```sql
     CREATE TABLE `reply` (  `id` int(11) NOT NULL AUTO_INCREMENT,  `item_id` int(11) DEFAULT NULL,  `reply_er` char(30) DEFAULT NULL,  `reply_time` float DEFAULT NULL,  `reply` text,  PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
     ```
+    5. 新建data表，存放分析结果
+    ```sql
+    CREATE TABLE `data` (  `id` int(11) NOT NULL AUTO_INCREMENT,  `word` char(20) DEFAULT NULL,  `times` int(11)DEFAULT NULL,  `frequency` float DEFAULT NULL,  `yes` char(10) DEFAULT NULL,  PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8
+    ```
     
-7. `python main.py` 运行爬虫
+7. `python main.py` 运行项目
 
 ## 进度
 - [x] 项目设计
@@ -48,4 +52,4 @@
 - [x] 总爬虫入口
 - [ ] 单元测试
 - [ ] 项目优化重构
-- [ ] 数据分析
+- [x] 数据分析
